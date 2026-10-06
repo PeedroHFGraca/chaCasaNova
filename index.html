@@ -14,7 +14,7 @@
       --text-color: #333333;
 
       /* Cores por Categoria (Pastel e Especiais) */
-      --cat-cozinha: #B8C8F0;
+      --cat-cozinha: #99b2f2;
       --cat-sala: #FDE293;
       --cat-quarto: #FFB7B2;
       --cat-banheiro: #B5EAD7;
@@ -585,6 +585,61 @@
       color: #888;
       font-style: italic;
     }
+
+    /* ESTILOS DO CONTADOR REGRESSIVO */
+    .countdown-container {
+      background: rgba(255, 248, 243, 0.8);
+      border: 1px solid var(--cat-quarto);
+      border-radius: 18px;
+      padding: 16px;
+      margin: 20px 0;
+      text-align: center;
+    }
+
+    .countdown-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--secondary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+
+    .countdown-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .time-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 55px;
+    }
+
+    .time-block span {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #FF6B52;
+      font-family: Georgia, serif;
+      line-height: 1;
+    }
+
+    .time-block small {
+      font-size: 0.75rem;
+      color: #666;
+      text-transform: lowercase;
+      margin-top: 4px;
+    }
+
+    .time-separator {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--secondary);
+      margin-bottom: 14px;
+    }
   </style>
 </head>
 
@@ -604,7 +659,7 @@
   <!-- SELETOR DE ABAS PRINCIPAIS -->
   <nav class="main-nav">
     <button class="tab-btn active" onclick="switchMainTab('convite')">💌 Convite</button>
-    <button class="tab-btn" onclick="switchMainTab('presentes')">🎁 Lista de Presentes</button>
+    <button class="tab-btn" onclick="switchMainTab('presentes')">🎁Presentes</button>
   </nav>
 
   <!-- ================= ABA 1: CONVITE ================= -->
@@ -715,6 +770,31 @@
     <p>Lar novo, histórias novas, boas energias. ✨</p>
   </footer>
 
+  <!-- Contador Regressivo -->
+  <div class="countdown-container">
+    <div class="countdown-title">Faltam pouco para o grande dia! ⏳</div>
+    <div class="countdown-box">
+      <div class="time-block">
+        <span id="cd-days">00</span>
+        <small>Dias</small>
+      </div>
+      <div class="time-separator">:</div>
+      <div class="time-block">
+        <span id="cd-hours">00</span>
+        <small>Horas</small>
+      </div>
+      <div class="time-separator">:</div>
+      <div class="time-block">
+        <span id="cd-minutes">00</span>
+        <small>Minutos</small>
+      </div>
+      <div class="time-separator">:</div>
+      <div class="time-block">
+        <span id="cd-seconds">00</span>
+        <small>Segundos</small>
+      </div>
+    </div>
+  </div>
   <script>
     function switchMainTab(tabName) {
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -757,12 +837,6 @@
     };
 
     const presentes = [
-      // Presentes Especiais (Nova Categoria)
-      { nome: "Máquina de lavar", desc: "Dá para presentear em cotas pelo link de pagamento.", preco: "A partir de R$ 1.800", icon: "🫧", cat: "especiais", amazon: "https://amazon.com.br", ton: "https://link.pagar.me" },
-      { nome: "Sofá", desc: "Cinza claro, 3 lugares. Aceitamos cotas.", preco: "A partir de R$ 1.500", icon: "🛋️", cat: "especiais", amazon: "https://amazon.com.br", ton: "https://link.pagar.me" },
-      { nome: "Fogão", desc: "Cooktop ou fogão de 4 bocas.", preco: "A partir de R$ 800", icon: "🔥", cat: "especiais", amazon: "https://amazon.com.br", ton: "https://link.pagar.me" },
-      { nome: "Guarda-roupa", desc: "Casal, com portas de correr.", preco: "A partir de R$ 1.200", icon: "🚪", cat: "especiais", amazon: "https://amazon.com.br", ton: "https://link.pagar.me" },
-
       // Cozinha
       { nome: "Jogo de Pratos", desc: "Conjunto de 12 peças, neutro ou branco.", preco: "R$ 120 - 250", icon: "🍽️", cat: "cozinha", amazon: "https://amazon.com.br", ton: "https://link.pagar.me" },
       { nome: "Jogo de Talheres", desc: "Aço inox, 24 ou 30 peças.", preco: "R$ 80 - 200", icon: "🍴", cat: "cozinha", amazon: "https://amazon.com.br", ton: "https://link.pagar.me" },
@@ -787,8 +861,14 @@
       { nome: "Kit Banheiro Acessórios", desc: "Porta sabonete, lixeira, porta escovas, Tapete Antiderrapante.", preco: "R$ 40 - 90", icon: "🚿", cat: "banheiro", amazon: "https://amazon.com.br", ton: "https://link.pagar.me" },
 
       // Lavanderia
-      { nome: "Varal de Chão", desc: "Varal dobrável para lavanderia.", preco: "R$ 70 - 140", icon: "🧺", cat: "lavanderia", amazon: "https://amazon.com.br", ton: "https://link.pagar.me" },
-      { nome: "Kit Limpeza Completo", desc: "Vassoura, rodo, pá e balde com espremedor.", preco: "R$ 50 - 120", icon: "🧹", cat: "lavanderia", amazon: "https://amazon.com.br", ton: "https://link.pagar.me" }
+      { nome: "Varal de Chão", desc: "Varal dobrável para lavanderia.", preco: "R$ 70 - 140", icon: "👕", cat: "lavanderia", amazon: "https://amazon.com.br", ton: "https://link.pagar.me" },
+      { nome: "Kit Limpeza Completo", desc: "Vassoura, rodo, pá e balde com espremedor.", preco: "R$ 50 - 120", icon: "🧹", cat: "lavanderia", amazon: "https://amazon.com.br", ton: "https://link.pagar.me" },
+
+      // Presentes Especiais (Nova Categoria)
+      { nome: "Máquina de lavar", desc: "Dá para presentear em cotas pelo link de pagamento.", preco: "A partir de R$ 1.800", icon: "🫧", cat: "especiais", amazon: "https://amazon.com.br", ton: "https://link.pagar.me" },
+      { nome: "Sofá", desc: "Cinza claro, 3 lugares. Aceitamos cotas.", preco: "A partir de R$ 1.500", icon: "🛋️", cat: "especiais", amazon: "https://amazon.com.br", ton: "https://link.pagar.me" },
+      { nome: "Fogão", desc: "Cooktop ou fogão de 4 bocas.", preco: "A partir de R$ 800", icon: "🔥", cat: "especiais", amazon: "https://amazon.com.br", ton: "https://link.pagar.me" },
+      { nome: "Guarda-roupa", desc: "Casal, com portas de correr.", preco: "A partir de R$ 1.200", icon: "🚪", cat: "especiais", amazon: "https://amazon.com.br", ton: "https://link.pagar.me" },
     ];
 
     function renderGifts(items) {
@@ -831,6 +911,33 @@
     }
 
     renderGifts(presentes);
+
+    const eventDate = new Date("2026-11-15T16:00:00").getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = eventDate - now;
+
+      if (distance < 0) {
+        document.querySelector(".countdown-container").innerHTML =
+          "<div class='countdown-title'>🎉 É HOJE! Chegou o grande dia!</div>";
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById("cd-days").innerText = String(days).padStart(2, "0");
+      document.getElementById("cd-hours").innerText = String(hours).padStart(2, "0");
+      document.getElementById("cd-minutes").innerText = String(minutes).padStart(2, "0");
+      document.getElementById("cd-seconds").innerText = String(seconds).padStart(2, "0");
+    }
+
+    // Atualiza a cada 1 segundo
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
   </script>
 </body>
 
