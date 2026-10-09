@@ -654,6 +654,34 @@
     .pb:hover{transform:scale(1.03)}
     .pb:disabled{opacity:.6;cursor:wait}
 
+
+    #env{position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;padding:20px;background:radial-gradient(circle at 20% 15%,#FFD9C9 0,transparent 45%),radial-gradient(circle at 85% 80%,#E3D6FF 0,transparent 45%),var(--bg);transition:opacity .8s ease,transform .8s ease;overflow:hidden}
+    #env.out{opacity:0;transform:scale(1.08);pointer-events:none}
+    #env .cap{text-align:center;color:var(--ink);animation:ecap .9s .1s both}
+    #env .cap small{display:block;letter-spacing:.25em;text-transform:uppercase;font-size:12px;font-weight:700;color:var(--pink);margin-bottom:6px}
+    #env .cap b{font-size:clamp(26px,7vw,38px);line-height:1.1}
+    @keyframes ecap{from{opacity:0;transform:translateY(14px)}}
+    .ev{position:relative;width:min(320px,82vw);aspect-ratio:3/2;cursor:pointer;border:0;background:none;padding:0;perspective:900px;animation:efloat 3s ease-in-out infinite,epop .8s cubic-bezier(.3,1.5,.5,1) both;-webkit-tap-highlight-color:transparent}
+    @keyframes efloat{50%{translate:0 -10px}}
+    @keyframes epop{from{opacity:0;scale:.6;rotate:-6deg}}
+    .ev i{position:absolute;display:block}
+    .ev .bk{inset:0;background:#F6B8A6;border-radius:10px;box-shadow:0 24px 50px rgba(48,30,74,.28)}
+    .ev .lt{left:7%;right:7%;top:6%;bottom:6%;background:#fff;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.12);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:12px;text-align:center;color:var(--ink);transition:transform .9s .5s cubic-bezier(.3,1.2,.4,1);z-index:2}
+    .ev .lt span{font-size:34px}.ev .lt em{font-style:normal;font-weight:700;font-size:18px;line-height:1.2}
+    .ev .fr{inset:0;z-index:3;border-radius:10px;background:linear-gradient(135deg,#ffffff,#d9d4d4);clip-path:polygon(0 0,50% 52%,100% 0,100% 100%,0 100%)}
+    .ev .fr::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(255,255,255,.28),transparent 55%);clip-path:polygon(0 0,50% 52%,100% 0,100% 100%,0 100%)}
+    .ev .fl{left:0;right:0;top:0;height:56%;z-index:4;background:linear-gradient(180deg,#ffffff,#e8d8d5);clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transition:transform .7s ease,z-index 0s .35s;border-radius:10px 10px 0 0}
+    .ev .sl{left:50%;top:48%;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ff5a26f7,#d03200);z-index:5;display:grid;place-items:center;font-style:normal;font-size:20px;box-shadow:0 4px 10px rgba(0,0,0,.25);transition:opacity .3s,scale .3s;animation:beat 1.4s infinite}
+    @keyframes beat{50%{scale:1.14}}
+    .ev.open{animation:none}
+    .ev.open .fl{transform:rotateX(180deg);z-index:1}
+    .ev.open .sl{opacity:0;scale:.2;animation:none}
+    .ev.open .lt{transform:translateY(-70%)}
+    #env .hint{color:var(--mute);font-weight:600;font-size:14px;animation:ecap .9s .5s both}
+    #env.go .hint{opacity:0;transition:.3s}
+    #env .cf{position:absolute;top:-20px;width:10px;height:14px;border-radius:2px;animation:fall linear infinite;opacity:.8}
+    @keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+    @media (prefers-reduced-motion:reduce){.ev,#env .cf,.ev .sl{animation:none}.ev .lt,.ev .fl{transition:none}}
     #md{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(48,30,74,.55);backdrop-filter:blur(6px)}
     #md.on{display:flex}
     #md .bx{background:#fff;border-radius:28px;padding:28px 24px 22px;width:100%;max-width:400px;text-align:center;box-shadow:0 30px 80px rgba(48,30,74,.35);animation:mdin .35s cubic-bezier(.3,1.5,.5,1)}
@@ -852,6 +880,13 @@
 </head>
 
 <body>
+  <div id="env" role="dialog" aria-label="Convite">
+    <div class="cap"><small>Você está convidado</small><b>Pedro &amp; Kethellyn</b></div>
+    <button class="ev" id="evb" type="button" aria-label="Abrir convite">
+      <i class="bk"></i><i class="lt"><span>🏡</span><em>Chá de<br>Casa Nova</em></i><i class="fr"></i><i class="fl"></i><i class="sl">❔</i>
+    </button>
+    <div class="hint">Toque no envelope para abrir</div>
+  </div>
   <div class="bg" aria-hidden="true"><i></i><i></i><i></i></div>
   <header class="top">
     <div class="wrap">
@@ -1172,6 +1207,23 @@
       if (au.paused) {au.play().then(function () {b.classList.add('on'); t.nodeValue = 'Pausar música'}).catch(function () { })}
       else {au.pause(); b.classList.remove('on'); t.nodeValue = 'Tocar música'}
     };
+
+    /* Tela de abertura: envelope */
+    (function () {
+      var env = $('#env'), ev = $('#evb'); if (!env) return;
+      document.documentElement.style.overflow = 'hidden';
+      var cols = ['#FF6B52', '#FF538A', '#FFE8A3', '#B8C8F0', '#B6E3C6'];
+      if (!calm) for (var i = 0; i < 16; i++) {var c = document.createElement('i'); c.className = 'cf'; c.style.cssText = 'left:' + Math.random() * 100 + '%;background:' + cols[i % 5] + ';animation-duration:' + (5 + Math.random() * 5) + 's;animation-delay:-' + Math.random() * 8 + 's'; env.appendChild(c)}
+      var opened = false;
+      function abrir() {
+        if (opened) return; opened = true; ev.classList.add('open'); env.classList.add('go');
+        if (typeof burst === 'function' && !calm) try {var r = ev.getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2)} catch (x) { }
+        if (au) au.play().then(function () {$('#mus').classList.add('on'); $('#musT').firstChild.nodeValue = 'Pausar música'}).catch(function () { });
+        setTimeout(function () {env.classList.add('out'); document.documentElement.style.overflow = ''}, calm ? 200 : 1900);
+        setTimeout(function () {env.remove()}, calm ? 900 : 2800)
+      }
+      ev.onclick = abrir
+    })();
     var h = (location.hash || '').slice(1); tab(h === 'presentes' ? 'presentes' : 'convite', true);
   </script>
   <script type="module">
