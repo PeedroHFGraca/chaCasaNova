@@ -655,6 +655,14 @@
     .pb:disabled{opacity:.6;cursor:wait}
 
 
+
+    .food{display:flex;align-items:center;gap:14px;margin-top:14px;padding:16px 18px;border-radius:20px;background:linear-gradient(135deg,#FFE8A3,#FFD0C2);color:var(--ink);box-shadow:0 8px 24px rgba(255,107,82,.18);transition:transform .25s cubic-bezier(.3,1.6,.5,1)}
+    .food:hover{transform:scale(1.02) rotate(-.6deg)}
+    .food .fe{font-size:38px;line-height:1;animation:fw 2.6s ease-in-out infinite;display:inline-block}
+    @keyframes fw{50%{transform:rotate(-10deg) translateY(-4px)}}
+    .food b{display:block;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--coral);margin-bottom:2px}
+    .food p{margin:0;font-weight:600;line-height:1.4;font-size:16px}
+    @media (prefers-reduced-motion:reduce){.food .fe{animation:none}}
     #env{position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;padding:20px;background:radial-gradient(circle at 20% 15%,#FFD9C9 0,transparent 45%),radial-gradient(circle at 85% 80%,#E3D6FF 0,transparent 45%),var(--bg);transition:opacity .8s ease,transform .8s ease;overflow:hidden}
     #env.out{opacity:0;transform:scale(1.08);pointer-events:none}
     #env .cap{text-align:center;color:var(--ink);animation:ecap .9s .1s both}
@@ -914,6 +922,11 @@
           </div>
           <div class="chip"><span>📍</span>
             <div><b>Local</b><i id="cPlace"></i></div>
+          </div>
+        </div>
+        <div class="food"><span class="fe" aria-hidden="true">🍻</span>
+          <div><b>Comes &amp; bebes</b>
+            <p>Venha de bucho vazio, pra comer bastante. E traga sua bebida favorita! 😋</p>
           </div>
         </div>
         <div class="cd" id="cd">
